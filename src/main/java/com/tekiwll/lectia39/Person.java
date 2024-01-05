@@ -1,12 +1,32 @@
 package com.tekiwll.lectia39;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Person {
 
+
+    public Person() {
+
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column
+    private int idnp;
+
+    @Column
+    private String orasul;
+
+    @Column
     private String name;
+
+    @Column
     private String surname;
 
+    @Column(name = "varsta")
     private int age;
 
     public Person(int id, String name, String surname, int age) {
@@ -46,6 +66,22 @@ public class Person {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdnp() {
+        return idnp;
+    }
+
+    public void setIdnp(int idnp) {
+        this.idnp = idnp;
+    }
+
+    public String getOrasul() {
+        return orasul;
+    }
+
+    public void setOrasul(String orasul) {
+        this.orasul = orasul;
     }
 
     @Override

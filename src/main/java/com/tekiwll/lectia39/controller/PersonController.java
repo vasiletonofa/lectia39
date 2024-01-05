@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController             // Controller
 @RequestMapping("/person")
-public class PersonController { // GET, POST, PUT, DELETE          -> http://localhost:8080/person/delete/3
+public class PersonController { // GET, POST, PUT, DELETE, PATCH          -> http://localhost:8080/person/delete/3
 
     @Autowired
     private PersonService personService;
@@ -22,18 +22,18 @@ public class PersonController { // GET, POST, PUT, DELETE          -> http://loc
     }
 
     @GetMapping
-    public List<Person> getPersonByName(@RequestParam String name, @RequestParam String surname) {
-        return personService.getPersonByName(name, surname);
+    public List<Person> getPersonByName(@RequestParam String name) {
+        return personService.getPersonByName(name);
     }
 
     @GetMapping("/find")
     public ResponseEntity<Object> getPersonByNameAndSurname(@RequestParam String name, @RequestParam String surname) {
-        Person person;
+        List<Person> person;
         try {
             person =  personService.getPersonByNameAndSurname(name, surname);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nu a fost gasita asa persoana");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
         return ResponseEntity.ok(person);
@@ -42,6 +42,11 @@ public class PersonController { // GET, POST, PUT, DELETE          -> http://loc
     @PutMapping("/update/{id}")
     public void updatePerson(@RequestBody Person person, @PathVariable int id) {
         personService.updatePerson(person, id);
+    }
+
+    @PatchMapping("/patch/{id}")
+    public void patchPerson(@RequestBody Person person, @PathVariable int id) {
+        personService.patchPerson(person, id);
     }
 
     @PostMapping("/create")
